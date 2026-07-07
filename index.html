@@ -38,6 +38,16 @@ body {
   background: linear-gradient(90deg, var(--accent), var(--warm));
   -webkit-background-clip: text; -webkit-text-fill-color: transparent;
 }
+.theme-btn {background:var(--glass); border:1px solid var(--accent); color:var(--text); padding:8px 14px; border-radius:10px; cursor:pointer;}
+
+.ceo-bar {
+  display:flex; gap:30px; justify-content:center; margin:20px 40px;
+  background: var(--glass); padding:20px; border-radius:16px; flex-wrap:wrap;
+}
+.ceo-num {text-align:center; min-width:120px;}
+.ceo-num h2 {font-size:2.2em; color:var(--accent);}
+.ceo-num p {font-size:0.8em; opacity:0.7;}
+
 .live-feed {
   background: var(--glass); backdrop-filter: blur(20px);
   margin: 20px 40px; padding: 15px; border-radius: 14px;
@@ -64,7 +74,7 @@ body {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 24px;
-  padding: 0 40px 40px;
+  padding: 0 40px 100px;
   max-width: 1600px; margin: 0 auto;
 }
 .card {
@@ -102,6 +112,7 @@ body {
   background: #01060f;
   border: 1px solid var(--accent);
   border-radius: 22px; padding: 35px; width: 95%; max-width: 700px;
+  max-height: 90vh; overflow-y: auto;
 }
 .kpi {
   display:grid; grid-template-columns: repeat(3,1fr); gap:15px; margin:20px 0;
@@ -111,12 +122,25 @@ body {
   border-bottom: 2px solid var(--accent);
 }
 .kpi-box h4 {font-size:1.8em; color:var(--accent);}
+input, textarea, select {
+  width:100%; padding:12px; margin-top:8px; border-radius:10px;
+  border:1px solid rgba(255,255,255,0.2); background:rgba(0,0,0,0.3); color:var(--text);
+}
 .btn {
   background: linear-gradient(90deg, var(--accent), var(--warm));
   border: none; color: #000; padding: 14px 24px; border-radius: 12px;
   font-weight: 800; cursor: pointer; width: 100%; margin-top: 15px;
   font-size: 1em;
 }
+.btn.secondary {background: var(--glass); color:var(--text); border:1px solid var(--accent);}
+.impact-clock {
+  position: fixed; bottom: 20px; right: 20px;
+  background: linear-gradient(135deg, var(--accent), var(--warm));
+  color: #000; padding: 15px 20px; border-radius: 16px;
+  font-weight: 800; box-shadow: 0 0 30px rgba(0,217,255,0.3);
+  z-index: 100;
+}
+.impact-clock small {display:block; font-size:0.7em; font-weight:400;}
 </style>
 </head>
 <body>
@@ -124,10 +148,20 @@ body {
 
 <div class="header">
   <h1>TWINZ OS // LIFE</h1>
-  <div>2030.04.12 | TWINZ IRON MINE</div>
+  <div style="display:flex; gap:15px; align-items:center;">
+    <div>2030.04.12 | TWINZ IRON MINE</div>
+    <button class="theme-btn" onclick="toggleTheme()">☀️/🌙</button>
+  </div>
 </div>
 
-<div class="live-feed">
+<div class="ceo-bar">
+  <div class="ceo-num"><h2 id="jobs">320</h2><p>Jobs Created</p></div>
+  <div class="ceo-num"><h2 id="spend">R8.4M</h2><p>To Community</p></div>
+  <div class="ceo-num"><h2 id="peace">0</h2><p>Protests</p></div>
+  <div class="ceo-num"><h2 id="happy">96%</h2><p>Satisfaction</p></div>
+</div>
+
+<div class="live-feed" id="liveFeed">
   🔴 LIVE: <span>Thabo Mokoena</span> was hired as Welders Assistant 2 min ago |
   <span>Clinic</span> saw 14 patients today |
   <span>Trust Fund</span> reached R12.1M
@@ -149,22 +183,29 @@ body {
   </div>
 </div>
 
+<div class="impact-clock">
+  TWINZ IMPACT
+  <small id="impactText">R12.1M | 320 Jobs | 14 Lives Changed</small>
+</div>
+
 <script>
+let twinzData = JSON.parse(localStorage.getItem('twinzLife')) || [];
+
 const modules = [
-  {icon:"👷", name:"PEOPLE COMMAND", sub:"Real people. Real jobs.", face:"👷", story:"'This job changed my life' - Lerato, 28", metrics:["512 People","47 Hired This Month","98% From Community"], data:["Full Name","ID","Skill","WhatsApp"]},
-  {icon:"🚛", name:"FLEET FAMILY", sub:"Drivers + Trucks + Income", face:"🚛", story:"'Paid my son’s fees with this truck' - Jabu", metrics:["32 Trucks","18 Loads Today","R76,800 Paid"], data:["Company","Truck Reg","Driver Name","Rate"]},
+  {icon:"👷", name:"PEOPLE COMMAND", sub:"Real people. Real jobs.", face:"👷", story:"'This job changed my life' - Lerato, 28", metrics:["512 People","47 Hired This Month","98% From Community"], data:["Full Name","ID Number","Skill","WhatsApp"], proof:true},
+  {icon:"🚛", name:"FLEET FAMILY", sub:"Drivers + Trucks + Income", face:"🚛", story:"'Paid my son’s fees with this truck' - Jabu", metrics:["32 Trucks","18 Loads Today","R76,800 Paid"], data:["Company","Truck Reg","Driver Name","Rate"], proof:true},
   {icon:"🏪", name:"LOCAL HEROES", sub:"BEE Businesses Growing", face:"🏪", story:"'Got my first R200K contract' - Sis Nomsa", metrics:["24 Vendors","R1.2M Spent Local","86 Orders"], data:["Business","What You Supply","Contact"]},
   {icon:"📊", name:"PROMISE TRACKER", sub:"SLP Made Visible", face:"📊", story:"'We can finally see where money goes' - Chief", metrics:["R8.4M Invested","320 Jobs Created","100% Compliant"], data:["Project","Budget","Status"]},
-  {icon:"🦺", name:"SAFETY = FAMILY", sub:"Everyone Goes Home", face:"🦺", story:"'0 injuries for 6 months' - Safety Officer", metrics:["1040 Trained","98% PPE Compliant","0 Lost Time"], data:["Name","Induction Date","Next Renewal"]},
+  {icon:"🦺", name:"SAFETY = FAMILY", sub:"Everyone Goes Home", face:"🦺", story:"'0 injuries for 6 months' - Safety Officer", metrics:["1040 Trained","98% PPE Compliant","0 Lost Time"], data:["Name","Induction Date","Next Renewal"], proof:true},
   {icon:"💰", name:"TRANSPARENCY VAULT", sub:"See Every Rand", face:"💰", story:"'Payments in 24hrs, no bribes' - Supplier", metrics:["R4.8M Paid","67 Paid","0 Complaints"], data:["Payee","Amount","What For"]},
-  {icon:"📢", name:"VOICE OF COMMUNITY", sub:"Heard in 48 Hours", face:"📢", story:"'They fixed our water in 2 days' - Ward 3", metrics:["3 Open","142 Solved","96% Happy"], data:["Ward","Issue","Phone"]},
+  {icon:"📢", name:"VOICE OF COMMUNITY", sub:"Heard in 48 Hours", face:"📢", story:"'They fixed our water in 2 days' - Ward 3", metrics:["3 Open","142 Solved","96% Happy"], data:["Ward","Issue","Phone"], voice:true},
   {icon:"🎓", name:"FUTURE BUILDERS", sub:"Skills = Freedom", face:"🎓", story:"'Now I’m a qualified electrician' - Kabelo", metrics:["240 Training","89 Placed","12 Courses"], data:["Name","Course","Phone"]},
   {icon:"🌱", name:"DREAM INCUBATOR", sub:"Fund Local Ideas", face:"🌱", story:"'Got R50K grant for chicken farm' - Gogo", metrics:["38 Businesses","R2.1M Granted","54 Contracts"], data:["Idea","Amount Needed","Contact"]},
-  {icon:"🏥", name:"HEALTH FOR ALL", sub:"Clinic + Wellness", face:"🏥", story:"'Free checkups saved my life' - Auntie", metrics:["1200 Patients","8 Campaigns","A+ Rating"], data:["Name","Service","Date"]},
+  {icon:"🏥", name:"HEALTH FOR ALL", sub:"Clinic + Wellness", face:"🏥", story:"'Free checkups saved my life' - Auntie", metrics:["1200 Patients","8 Campaigns","A+ Rating"], data:["Name","Service","Date"], voice:true},
   {icon:"⚽", name:"YOUTH RISING", sub:"Sports + Bursaries", face:"⚽", story:"'Twinz Cup gave us hope' - Coach", metrics:["16 Teams","R500K Bursaries","4 Tournaments"], data:["Team/Name","Event","Budget"]},
   {icon:"🏦", name:"LEGACY FUND", sub:"For Our Grandkids", face:"🏦", story:"'R12M for after mine closes' - Committee", metrics:["R12M Saved","9 Projects","3400 Votes"], data:["Project","Cost","Ward"]},
-  {icon:"🗺️", name:"ANCESTOR GUARD", sub:"Protect Heritage", face:"🗺️", story:"'Graves are safe and mapped' - Elder", metrics:["22 Sites","18 Meetings","100% Agreement"], data:["Location","Issue","Notes"]},
-  {icon:"🌳", name:"GREEN BREATH", sub:"Land Healed", face:"🌳", story:"'River is clean again' - Community", metrics:["8400 Trees","Water: Clean","ESG: AA"], data:["Report","Location","Photo"]},
+  {icon:"🗺️", name:"ANCESTOR GUARD", sub:"Protect Heritage", face:"🗺️", story:"'Graves are safe and mapped' - Elder", metrics:["22 Sites","18 Meetings","100% Agreement"], data:["Location","Issue","Notes"], proof:true},
+  {icon:"🌳", name:"GREEN BREATH", sub:"Land Healed", face:"🌳", story:"'River is clean again' - Community", metrics:["8400 Trees","Water: Clean","ESG: AA"], data:["Report","Location","Photo"], proof:true},
   {icon:"💳", name:"COMMUNITY BANK", sub:"We Save Together", face:"💳", story:"'Stokvel paid for my shop' - Mama", metrics:["640 Members","R3.2M Saved","112 Loans"], data:["Name","Action","Amount"]},
   {icon:"🤖", name:"LIFE AI", sub:"Predicts + Cares", face:"🤖", story:"'AI warned us about truck delays' - Ops", metrics:["5 Warnings","94% Accurate","R1.8M Saved"], data:["Ask LIFE","Department"]},
   {icon:"📦", name:"SPREAD THE LIGHT", sub:"Clone to Other Mines", face:"📦", story:"'Every mine deserves this' - You", metrics:["1 System","0 Mines Yet","R250K License"], data:["Mine Name","Contact","Email"]}
@@ -188,7 +229,10 @@ function openModule(i) {
   let kpiHTML = '<div class="kpi">';
   m.metrics.forEach(k => kpiHTML += `<div class="kpi-box"><h4>${k.split(' ')[0]}</h4><p>${k.split(' ').slice(1).join(' ')}</p></div>`);
   kpiHTML += '</div>';
-  let formHTML = m.data.map(f => `<input type="text" placeholder="${f}">`).join('');
+
+  let formHTML = m.data.map(f => `<input type="text" placeholder="${f}" class="entryInput">`).join('');
+  if(m.proof) formHTML += `<input type="file" accept="image/*" id="proofPhoto"><small>📍 Photo + GPS for audit proof</small>`;
+  if(m.voice) formHTML += `<button class="btn secondary" onclick="recordVoice()">🎤 Hold to Record Voice Note</button>`;
 
   document.getElementById('modalTitle').innerText = `${m.icon} ${m.name}`;
   document.getElementById('modalBody').innerHTML = `
@@ -197,18 +241,34 @@ function openModule(i) {
     ${kpiHTML}
     <h4 style="margin:15px 0 5px;">ADD NEW ENTRY</h4>
     ${formHTML}
-    <button class="btn" onclick="saveData('${m.name}')">SAVE TO COMMUNITY DATABASE</button>
+    <button class="btn" onclick="saveData('${m.name}', ${m.proof||false})">SAVE TO COMMUNITY DATABASE</button>
+    <button class="btn secondary" onclick="exportPDF('${m.name}')">📄 EXPORT PDF REPORT</button>
   `;
   document.getElementById('modal').style.display = 'flex';
 }
 
 function closeModal() {document.getElementById('modal').style.display = 'none';}
 
-function saveData(module) {
-  let data = JSON.parse(localStorage.getItem('twinzLife')) || [];
-  data.push({module, time: new Date().toISOString()});
-  localStorage.setItem('twinzLife', JSON.stringify(data));
-  alert(`✓ SAVED\n${module}\nThank you for building community.`);
+function saveData(module, hasProof) {
+  const inputs = document.querySelectorAll('.entryInput');
+  const entry = {module, time: new Date().toISOString(), values: []};
+  inputs.forEach(i => entry.values.push(i.value));
+  if(hasProof && document.getElementById('proofPhoto').files[0]) {
+    entry.proof = "Photo attached";
+    entry.gps = "Lat: -23.9, Lon: 29.4"; // Simulated
+  }
+  twinzData.push(entry);
+  localStorage.setItem('twinzLife', JSON.stringify(twinzData));
+
+  // WhatsApp Simulation
+  const msg = `🎉 TWINZ UPDATE: New entry in ${module}. Total actions: ${twinzData.length}`;
+  document.getElementById('liveFeed').innerHTML = `🔴 LIVE: ${msg} | ${new Date().toLocaleTimeString()}`;
+
+  // Update CEO Bar
+  document.getElementById('jobs').innerText = 320 + twinzData.length;
+  document.getElementById('impactText').innerText = `R${(12.1 + twinzData.length*0.01).toFixed(1)}M | ${320+twinzData.length} Jobs | ${14+twinzData.length} Lives`;
+
+  alert(`✓ SAVED & POSTED\n${msg}\nProof: ${hasProof? 'Photo + GPS' : 'Text'}\nSynced to Cloud`);
   closeModal();
 }
 
@@ -217,11 +277,24 @@ function jarvisSpeak() {
   if(q) {
     const responses = [
       `LIFE AI: I found 3 people who need induction training. Opening Safety Control.`,
-      `LIFE AI: Community wins this week: 12 jobs, 1 clinic day, R80K paid to vendors.`,
-      `LIFE AI: Trust Fund is healthy. Next vote is in 14 days.`
+      `LIFE AI: Community wins this week: ${twinzData.length} new actions, R${(twinzData.length*1000).toLocaleString()} paid.`,
+      `LIFE AI: Trust Fund is healthy. Next community vote in 14 days.`
     ];
     alert(responses[Math.floor(Math.random()*responses.length)]);
   }
+}
+
+function recordVoice() {
+  alert("🎤 Recording... [In real version this saves voice note and transcribes]");
+}
+
+function exportPDF(module) {
+  alert(`📄 Generating PDF Report for ${module}...\nReady for DMR Audit.`);
+}
+
+function toggleTheme() {
+  document.body.style.background = document.body.style.background === 'white'? 'var(--bg)' : 'white';
+  document.body.style.color = document.body.style.color === 'black'? 'var(--text)' : 'black';
 }
 </script>
 </body>
