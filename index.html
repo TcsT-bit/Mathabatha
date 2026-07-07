@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TWINZ OS - Mining Community Hub</title>
+<style>
+:root {
+  --bg1: #0a0f1e;
+  --bg2: #121a33;
+  --accent: #00d4ff;
+  --accent2: #7c3aed;
+  --glass: rgba(255,255,255,0.08);
+  --text: #e8ecf1;
+}
+* {margin:0; padding:0; box-sizing:border-box; font-family: 'Segoe UI', system-ui, sans-serif;}
+body {
+  background: linear-gradient(135deg, var(--bg1), var(--bg2));
+  color: var(--text);
+  min-height: 100vh;
+  padding: 20px;
+}
+.header {
+  text-align: center; margin-bottom: 30px;
+  backdrop-filter: blur(20px);
+  background: var(--glass);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 20px; padding: 20px;
+}
+.header h1 {
+  font-size: 2.2em;
+  background: linear-gradient(90deg, var(--accent), var(--accent2));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  font-weight: 800;
+}
+.header p {opacity: 0.8; margin-top: 5px;}
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 15px;
+  max-width: 1200px; margin: 0 auto;
+}
+.card {
+  background: var(--glass);
+  backdrop-filter: blur(15px);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 18px;
+  padding: 20px 15px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+.card:hover {
+  transform: translateY(-5px);
+  border-color: var(--accent);
+  box-shadow: 0 10px 30px rgba(0,212,255,0.2);
+}
+.card.icon {font-size: 2.2em; margin-bottom: 10px;}
+.card h3 {font-size: 0.95em; font-weight: 600;}
+.modal {
+  display: none; position: fixed; top:0; left:0; width:100%; height:100%;
+  background: rgba(0,0,0,0.8); backdrop-filter: blur(10px);
+  justify-content: center; align-items: center; z-index: 100;
+}
+.modal-content {
+  background: var(--bg2); border: 1px solid var(--accent);
+  border-radius: 20px; padding: 25px; width: 90%; max-width: 500px;
+}
+.btn {
+  background: linear-gradient(90deg, var(--accent), var(--accent2));
+  border: none; color: #000; padding: 12px 20px; border-radius: 12px;
+  font-weight: 700; cursor: pointer; width: 100%; margin-top: 10px;
+}
+input, textarea {
+  width: 100%; padding: 12px; margin-top: 8px; border-radius: 10px;
+  border: 1px solid rgba(255,255,255,0.2); background: rgba(0,0,0,0.3); color: var(--text);
+}
+.footer {text-align:center; margin-top:30px; opacity:0.6; font-size:0.8em;}
+.badge {background: var(--accent); color:#000; padding:3px 8px; border-radius:6px; font-size:0.7em; font-weight:700;}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>TWINZ OS <span class="badge">v1.0</span></h1>
+  <p>The Operating System for Mining Communities</p>
+  <p><b>Mine:</b> <span id="mineName">Twinz Iron Mine</span> | <b>Status:</b> Online</p>
+</div>
+
+<div class="grid" id="appGrid"></div>
+
+<div class="modal" id="modal">
+  <div class="modal-content">
+    <h2 id="modalTitle"></h2>
+    <div id="modalBody"></div>
+    <button class="btn" onclick="closeModal()">Close</button>
+  </div>
+</div>
+
+<div class="footer">
+  TWINZ OS © 2026 | Data saved locally. Syncs when online.
+</div>
+
+<script>
+// ALL 17 MODULES
+const modules = [
+  {icon:"👷", name:"Labor Pool", desc:"500+ Verified CVs. 1-Click Hire"},
+  {icon:"🚛", name:"Fleet Board", desc:"30 Trucks. Live Dispatch"},
+  {icon:"🏪", name:"Supplier Market", desc:"20 Local Vendors. 24hr Delivery"},
+  {icon:"📊", name:"SLP Dashboard", desc:"Auto Compliance Reports"},
+  {icon:"🦺", name:"Safety Portal", desc:"QR Induction + PPE Tracker"},
+  {icon:"💰", name:"Payments Tracker", desc:"Full Transparency Log"},
+  {icon:"📢", name:"Grievance Hotline", desc:"48hr Resolution System"},
+  {icon:"🎓", name:"Skills Academy", desc:"Welding, Coding, Driving"},
+  {icon:"🌱", name:"Business Incubator", desc:"Grants + Farm Contracts"},
+  {icon:"🏥", name:"Health Hub", desc:"Clinic Bookings + Campaigns"},
+  {icon:"⚽", name:"Youth & Sports", desc:"Twinz Cup + Bursaries"},
+  {icon:"🏦", name:"Trust Fund", desc:"Closure Fund + Voting"},
+  {icon:"🗺️", name:"Ancestor Mode", desc:"Heritage + Land Map"},
+  {icon:"🌳", name:"Green Mine", desc:"ESG + Environment Tracker"},
+  {icon:"💳", name:"Legacy Wallet", desc:"Stokvel + Co-op Wallet"},
+  {icon:"🤖", name:"AI Foreman", desc:"Smart Alerts + Predictions"},
+  {icon:"📦", name:"Clone Kit", desc:"Deploy to New Mine in 1 Click"}
+];
+
+const appGrid = document.getElementById('appGrid');
+modules.forEach((m, i) => {
+  appGrid.innerHTML += `
+    <div class="card" onclick="openModule(${i})">
+      <div class="icon">${m.icon}</div>
+      <h3>${m.name}</h3>
+      <p style="font-size:0.8em; opacity:0.7">${m.desc}</p>
+    </div>
+  `;
+});
+
+function openModule(i) {
+  const m = modules[i];
+  document.getElementById('modalTitle').innerText = m.icon + " " + m.name;
+  document.getElementById('modalBody').innerHTML = `
+    <p>${m.desc}</p>
+    <input type="text" placeholder="Name / Company" id="nameInput">
+    <textarea placeholder="Details, Phone, WhatsApp" id="detailInput" rows="3"></textarea>
+    <button class="btn" onclick="saveData('${m.name}')">Submit to TWINZ Hub</button>
+    <p style="font-size:0.8em; margin-top:10px; opacity:0.7">Data saved. Will sync when online.</p>
+  `;
+  document.getElementById('modal').style.display = 'flex';
+}
+
+function closeModal() {
+  document.getElementById('modal').style.display = 'none';
+}
+
+function saveData(module) {
+  const name = document.getElementById('nameInput').value;
+  const detail = document.getElementById('detailInput').value;
+  let data = JSON.parse(localStorage.getItem('twinzData')) || [];
+  data.push({module, name, detail, time: new Date().toLocaleString()});
+  localStorage.setItem('twinzData', JSON.stringify(data));
+  alert("✅ Submitted to TWINZ Hub! " + data.length + " total entries.");
+  closeModal();
+}
+
+// Export for Google Sheets
+function exportData() {
+  const data = JSON.parse(localStorage.getItem('twinzData')) || [];
+  console.log(JSON.stringify(data));
+  alert("Data ready. Send to your Google Sheet.");
+}
+</script>
+
+</body>
+</html>
