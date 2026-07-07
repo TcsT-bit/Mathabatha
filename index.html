@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TWINZ OS DEEP CORE - Surface + Underground Command</title>
+<title>TWINZ OS DEEP CORE - Surface + Underground + Community Command</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap');
 :root {
@@ -15,31 +15,136 @@
   --text: #e6f9ff;
 }
 * {margin:0; padding:0; box-sizing:border-box; font-family: 'Plus Jakarta Sans', sans-serif;}
-body {background: var(--bg); color: var(--text); min-height: 100vh;}
-.pulse-bg {position: fixed; width:200%; height:200%; top:-50%; left:-50%; background: radial-gradient(circle, rgba(0,217,255,0.03) 0%, transparent 70%); animation: pulse 8s ease-in-out infinite; z-index:-1;}
+body {
+  background: var(--bg);
+  background-image: radial-gradient(circle at 30% 20%, rgba(0,217,255,0.1) 0%, transparent 50%);
+  color: var(--text);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+.pulse-bg {
+  position: fixed; width:200%; height:200%; top:-50%; left:-50%;
+  background: radial-gradient(circle, rgba(0,217,255,0.03) 0%, transparent 70%);
+  animation: pulse 8s ease-in-out infinite;
+  z-index:-1;
+}
 @keyframes pulse {0%,100%{transform:scale(1)} 50%{transform:scale(1.1)}}
-.header {display:flex; justify-content:space-between; align-items:center; padding: 25px 40px; border-bottom: 1px solid rgba(0,217,255,0.2);}
-.header h1 {font-size: 2.2em; font-weight: 800; background: linear-gradient(90deg, var(--accent), var(--warm)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;}
-.badge-underground {background:var(--danger); color:#fff; padding:3px 8px; border-radius:6px; font-size:0.7em;}
-.ceo-bar {display:flex; gap:20px; justify-content:center; margin:20px 40px; background: var(--glass); padding:20px; border-radius:16px; flex-wrap:wrap;}
-.ceo-num {text-align:center; min-width:110px;}.ceo-num h2 {font-size:2em; color:var(--accent);}
-.grid {display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; padding: 0 40px 100px; max-width: 1600px; margin: 0 auto;}
-.card {background: var(--glass); backdrop-filter: blur(20px); border: 1px solid rgba(0,217,255,0.2); border-radius: 20px; padding: 25px; cursor: pointer; transition: all 0.4s;}
-.card:hover {border-color: var(--accent); transform: translateY(-6px); box-shadow: 0 15px 40px rgba(0,217,255,0.15);}
+
+.header {
+  display:flex; justify-content:space-between; align-items:center;
+  padding: 25px 40px; border-bottom: 1px solid rgba(0,217,255,0.2);
+}
+.header h1 {
+  font-size: 2.2em; font-weight: 800;
+  background: linear-gradient(90deg, var(--accent), var(--warm));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+}
+.theme-btn {background:var(--glass); border:1px solid var(--accent); color:var(--text); padding:8px 14px; border-radius:10px; cursor:pointer;}
+.badge-underground {background:var(--danger); color:#fff; padding:3px 8px; border-radius:6px; font-size:0.7em; margin-left:6px;}
+
+.ceo-bar {
+  display:flex; gap:20px; justify-content:center; margin:20px 40px;
+  background: var(--glass); padding:20px; border-radius:16px; flex-wrap:wrap;
+}
+.ceo-num {text-align:center; min-width:110px;}
+.ceo-num h2 {font-size:2em; color:var(--accent);}
+.ceo-num p {font-size:0.8em; opacity:0.7;}
+
+.live-feed {
+  background: var(--glass); backdrop-filter: blur(20px);
+  margin: 20px 40px; padding: 15px; border-radius: 14px;
+  border-left: 3px solid var(--warm);
+  font-size: 0.9em;
+}
+.live-feed span {color: var(--warm); font-weight: 600;}
+
+.jarvis-bar {
+  margin: 0 40px 30px; padding: 18px; background: var(--glass);
+  border: 1px solid var(--accent); border-radius: 16px;
+  display:flex; gap:12px; align-items:center;
+}
+.jarvis-bar input {
+  flex:1; background:transparent; border:none; color:var(--text); font-size:1.05em; outline:none;
+}
+.jarvis-avatar {
+  width:40px; height:40px; border-radius:50%;
+  background: linear-gradient(135deg, var(--accent), var(--warm));
+  display:flex; align-items:center; justify-content:center; font-size:1.3em;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 24px;
+  padding: 0 40px 100px;
+  max-width: 1600px; margin: 0 auto;
+}
+.card {
+  background: var(--glass);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(0,217,255,0.2);
+  border-radius: 20px;
+  padding: 25px;
+  cursor: pointer;
+  transition: all 0.4s;
+  position: relative;
+}
+.card:hover {
+  border-color: var(--accent);
+  transform: translateY(-6px);
+  box-shadow: 0 15px 40px rgba(0,217,255,0.15);
+}
 .card.underground {border-left: 4px solid var(--danger);}
-.card-face {width:50px; height:50px; border-radius:50%; background:var(--warm); display:flex; align-items:center; justify-content:center; font-size:1.5em; margin-bottom:12px;}
+.card-face {
+  width:50px; height:50px; border-radius:50%; background:var(--warm);
+  display:flex; align-items:center; justify-content:center; font-size:1.5em; margin-bottom:12px;
+}
 .card h3 {font-size: 1.25em; font-weight: 700; margin-bottom: 4px;}
 .card.sub {font-size:0.9em; opacity:0.7; margin-bottom:15px;}
 .card.metric {display:flex; justify-content:space-between; font-size:0.9em; margin-top:10px; padding-top:10px; border-top:1px solid rgba(255,255,255,0.05);}
-.story {font-size:0.85em; font-style:italic; opacity:0.8; margin-top:10px; color:var(--warm);}
-.modal {display: none; position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.9); backdrop-filter: blur(20px); justify-content: center; align-items: center; z-index: 1000;}
-.modal-content {background: #01060f; border: 1px solid var(--accent); border-radius: 22px; padding: 35px; width: 95%; max-width: 700px; max-height: 90vh; overflow-y: auto;}
-.kpi {display:grid; grid-template-columns: repeat(3,1fr); gap:15px; margin:20px 0;}
-.kpi-box {background: rgba(0,217,255,0.05); padding:18px; border-radius:12px; text-align:center; border-bottom: 2px solid var(--accent);}
+.story {
+  font-size:0.85em; font-style:italic; opacity:0.8; margin-top:10px; color:var(--warm);
+}
+
+.modal {
+  display: none; position: fixed; top:0; left:0; width:100%; height:100%;
+  background: rgba(0,0,0,0.9); backdrop-filter: blur(20px);
+  justify-content: center; align-items: center; z-index: 1000;
+}
+.modal-content {
+  background: #01060f;
+  border: 1px solid var(--accent);
+  border-radius: 22px; padding: 35px; width: 95%; max-width: 700px;
+  max-height: 90vh; overflow-y: auto;
+}
+.kpi {
+  display:grid; grid-template-columns: repeat(3,1fr); gap:15px; margin:20px 0;
+}
+.kpi-box {
+  background: rgba(0,217,255,0.05); padding:18px; border-radius:12px; text-align:center;
+  border-bottom: 2px solid var(--accent);
+}
 .kpi-box h4 {font-size:1.8em; color:var(--accent);}
-input {width:100%; padding:12px; margin-top:8px; border-radius:10px; border:1px solid rgba(255,255,255,0.2); background:rgba(0,0,0,0.3); color:var(--text);}
-.btn {background: linear-gradient(90deg, var(--accent), var(--warm)); border: none; color: #000; padding: 14px 24px; border-radius: 12px; font-weight: 800; cursor: pointer; width: 100%; margin-top: 15px; font-size: 1em;}
+input, textarea, select {
+  width:100%; padding:12px; margin-top:8px; border-radius:10px;
+  border:1px solid rgba(255,255,255,0.2); background:rgba(0,0,0,0.3); color:var(--text);
+}
+.btn {
+  background: linear-gradient(90deg, var(--accent), var(--warm));
+  border: none; color: #000; padding: 14px 24px; border-radius: 12px;
+  font-weight: 800; cursor: pointer; width: 100%; margin-top: 15px;
+  font-size: 1em;
+}
+.btn.secondary {background: var(--glass); color:var(--text); border:1px solid var(--accent);}
 .btn.danger {background:var(--danger); color:#fff;}
+.impact-clock {
+  position: fixed; bottom: 20px; right: 20px;
+  background: linear-gradient(135deg, var(--accent), var(--warm));
+  color: #000; padding: 15px 20px; border-radius: 16px;
+  font-weight: 800; box-shadow: 0 0 30px rgba(0,217,255,0.3);
+  z-index: 100;
+}
+.impact-clock small {display:block; font-size:0.7em; font-weight:400;}
 </style>
 </head>
 <body>
@@ -47,35 +152,74 @@ input {width:100%; padding:12px; margin-top:8px; border-radius:10px; border:1px 
 
 <div class="header">
   <h1>TWINZ OS // DEEP CORE</h1>
-  <div>2030.04.12 | SURFACE + UNDERGROUND</div>
+  <div style="display:flex; gap:15px; align-items:center;">
+    <div>2030.04.12 | SURFACE + UNDERGROUND</div>
+    <button class="theme-btn" onclick="toggleTheme()">☀️/🌙</button>
+  </div>
 </div>
 
 <div class="ceo-bar">
   <div class="ceo-num"><h2 id="workers">1,240</h2><p>Workers Tagged</p></div>
-  <div class="ceo-num"><h2 id="safe">0</h2><p>Underground Incidents</p></div>
-  <div class="ceo-num"><h2 id="air">98%</h2><p>Air Quality OK</p></div>
-  <div class="ceo-num"><h2 id="rescue">3min</h2><p>Avg Rescue Time</p></div>
+  <div class="ceo-num"><h2 id="jobs">320</h2><p>Jobs Created</p></div>
+  <div class="ceo-num"><h2 id="safe">0</h2><p>UG Incidents</p></div>
+  <div class="ceo-num"><h2 id="happy">96%</h2><p>Satisfaction</p></div>
+</div>
+
+<div class="live-feed" id="liveFeed">
+  🔴 LIVE: <span>Thabo Mokoena</span> was hired as Welders Assistant 2 min ago |
+  <span>Level 22</span> Air Quality OK |
+  <span>Trust Fund</span> reached R12.1M
+</div>
+
+<div class="jarvis-bar">
+  <div class="jarvis-avatar">🤖</div>
+  <input id="jarvisInput" placeholder="Ask LIFE: 'Who is on Level 31?' or 'Show community wins this week'">
+  <button class="btn" style="width:auto; padding:12px 20px;" onclick="jarvisSpeak()">ASK</button>
 </div>
 
 <div class="grid" id="appGrid"></div>
 
-<div class="modal" id="modal"><div class="modal-content"><h2 id="modalTitle"></h2><div id="modalBody"></div><button class="btn" onclick="closeModal()">CLOSE</button></div></div>
+<div class="modal" id="modal">
+  <div class="modal-content">
+    <h2 id="modalTitle"></h2>
+    <div id="modalBody"></div>
+    <button class="btn" onclick="closeModal()">CLOSE</button>
+  </div>
+</div>
+
+<div class="impact-clock">
+  TWINZ IMPACT
+  <small id="impactText">R12.1M | 320 Jobs | 0 Fatalities</small>
+</div>
 
 <script>
-const modules = [
-  // SURFACE MODULES
-  {icon:"👷", name:"PEOPLE COMMAND", sub:"Real people. Real jobs.", face:"👷", story:"'This job changed my life' - Lerato", metrics:["512 People","47 Hired","98% Local"], data:["Name","ID","Skill"], zone:"SURFACE"},
-  {icon:"📊", name:"PROMISE TRACKER", sub:"SLP Made Visible", face:"📊", story:"'We can finally see where money goes' - Chief", metrics:["R8.4M Invested","320 Jobs","100% Compliant"], data:["Project","Budget"], zone:"SURFACE"},
+let twinzData = JSON.parse(localStorage.getItem('twinzDeepCore')) || [];
 
-  // UNDERGROUND MODULES - NOBODY HAS THIS
-  {icon:"⛏️", name:"UNDERGROUND TAG & TRACK", sub:"Know where every worker is. Live.", face:"⛏️", story:"'They found my brother in 4 minutes' - Wife", metrics:["1240 Tagged","42 Levels","100% Coverage"], data:["Worker ID","Level","Tag Number"], zone:"UNDERGROUND", critical:true},
-  {icon:"🌬️", name:"AIR + GAS COMMAND", sub:"CO, Methane, Dust. Alerts in 2s.", face:"🌬️", story:"'System evacuated us before gas hit' - Miner", metrics:["98% Air OK","0 Gas Alarms","24 Sensors"], data:["Sensor ID","Gas Level","Location"], zone:"UNDERGROUND", critical:true},
+const modules = [
+  // UNDERGROUND MODULES
+  {icon:"⛏️", name:"UNDERGROUND TAG & TRACK", sub:"Know where every worker is. Live.", face:"⛏️", story:"'They found my brother in 4 minutes' - Wife", metrics:["1240 Tagged","42 Levels","100% Coverage"], data:["Worker ID","Level","Tag Number"], zone:"UNDERGROUND", critical:true, proof:true},
+  {icon:"🌬️", name:"AIR + GAS COMMAND", sub:"CO, Methane, Dust. Alerts in 2s.", face:"🌬️", story:"'System evacuated us before gas hit' - Miner", metrics:["98% Air OK","0 Gas Alarms","24 Sensors"], data:["Sensor ID","Gas Level","Location"], zone:"UNDERGROUND", critical:true, proof:true},
   {icon:"🚨", name:"EMERGENCY & REFUGE", sub:"1-Click Evac. Auto Headcount.", face:"🚨", story:"'Refuge bay had water + air' - Survivor", metrics:["18 Refuge Bays","3min Response","100% Tested"], data:["Incident Type","Level","Headcount"], zone:"UNDERGROUND", critical:true},
-  {icon:"🔦", name:"EQUIPMENT HEALTH AI", sub:"Predicts drill/conveyor failure", face:"🔦", story:"'AI saved R800K conveyor' - Engineer", metrics:["340 Assets","5 Warnings","R1.2M Saved"], data:["Asset ID","Vibration","Temp"], zone:"BOTH"},
-  {icon:"🦺", name:"SAFETY = FAMILY", sub:"PPE + Induction + Permits", face:"🦺", story:"'No entry without PPE scan' - Safety", metrics:["1040 Trained","98% PPE","0 LTI"], data:["Name","Permit","Expiry"], zone:"SURFACE"},
-  {icon:"💰", name:"TRANSPARENCY VAULT", sub:"See Every Rand", face:"💰", story:"'Payments in 24hrs' - Supplier", metrics:["R4.8M Paid","67 Paid","0 Complaints"], data:["Payee","Amount"], zone:"SURFACE"},
-  {icon:"📢", name:"VOICE OF COMMUNITY", sub:"Heard in 48 Hours", face:"📢", story:"'They fixed our water' - Ward 3", metrics:["3 Open","142 Solved","96% Happy"], data:["Ward","Issue"], zone:"SURFACE"},
+  {icon:"🔦", name:"EQUIPMENT HEALTH AI", sub:"Predicts drill/conveyor failure", face:"🔦", story:"'AI saved R800K conveyor' - Engineer", metrics:["340 Assets","5 Warnings","R1.2M Saved"], data:["Asset ID","Vibration","Temp"], zone:"BOTH", proof:true},
   {icon:"🤖", name:"DEEP AI ORACLE", sub:"Predicts rockfall + heat + fatigue", face:"🤖", story:"'AI stopped shift before rockfall' - Overseer", metrics:["12 Predictions","91% Accurate","0 Fatalities"], data:["Ask AI","Level"], zone:"UNDERGROUND", critical:true},
+
+  // SURFACE + COMMUNITY MODULES
+  {icon:"👷", name:"PEOPLE COMMAND", sub:"Real people. Real jobs.", face:"👷", story:"'This job changed my life' - Lerato, 28", metrics:["512 People","47 Hired This Month","98% From Community"], data:["Full Name","ID Number","Skill","WhatsApp"], zone:"SURFACE", proof:true},
+  {icon:"🚛", name:"FLEET FAMILY", sub:"Drivers + Trucks + Income", face:"🚛", story:"'Paid my son’s fees with this truck' - Jabu", metrics:["32 Trucks","18 Loads Today","R76,800 Paid"], data:["Company","Truck Reg","Driver Name","Rate"], zone:"SURFACE", proof:true},
+  {icon:"🏪", name:"LOCAL HEROES", sub:"BEE Businesses Growing", face:"🏪", story:"'Got my first R200K contract' - Sis Nomsa", metrics:["24 Vendors","R1.2M Spent Local","86 Orders"], data:["Business","What You Supply","Contact"], zone:"SURFACE"},
+  {icon:"📊", name:"PROMISE TRACKER", sub:"SLP Made Visible", face:"📊", story:"'We can finally see where money goes' - Chief", metrics:["R8.4M Invested","320 Jobs Created","100% Compliant"], data:["Project","Budget","Status"], zone:"SURFACE"},
+  {icon:"🦺", name:"SAFETY = FAMILY", sub:"PPE + Induction + Permits", face:"🦺", story:"'0 injuries for 6 months' - Safety Officer", metrics:["1040 Trained","98% PPE Compliant","0 Lost Time"], data:["Name","Induction Date","Next Renewal"], zone:"SURFACE", proof:true},
+  {icon:"💰", name:"TRANSPARENCY VAULT", sub:"See Every Rand", face:"💰", story:"'Payments in 24hrs, no bribes' - Supplier", metrics:["R4.8M Paid","67 Paid","0 Complaints"], data:["Payee","Amount","What For"], zone:"SURFACE"},
+  {icon:"📢", name:"VOICE OF COMMUNITY", sub:"Heard in 48 Hours", face:"📢", story:"'They fixed our water in 2 days' - Ward 3", metrics:["3 Open","142 Solved","96% Happy"], data:["Ward","Issue","Phone"], zone:"SURFACE", voice:true},
+  {icon:"🎓", name:"FUTURE BUILDERS", sub:"Skills = Freedom", face:"🎓", story:"'Now I’m a qualified electrician' - Kabelo", metrics:["240 Training","89 Placed","12 Courses"], data:["Name","Course","Phone"], zone:"SURFACE"},
+  {icon:"🌱", name:"DREAM INCUBATOR", sub:"Fund Local Ideas", face:"🌱", story:"'Got R50K grant for chicken farm' - Gogo", metrics:["38 Businesses","R2.1M Granted","54 Contracts"], data:["Idea","Amount Needed","Contact"], zone:"SURFACE"},
+  {icon:"🏥", name:"HEALTH FOR ALL", sub:"Clinic + Wellness", face:"🏥", story:"'Free checkups saved my life' - Auntie", metrics:["1200 Patients","8 Campaigns","A+ Rating"], data:["Name","Service","Date"], zone:"SURFACE", voice:true},
+  {icon:"⚽", name:"YOUTH RISING", sub:"Sports + Bursaries", face:"⚽", story:"'Twinz Cup gave us hope' - Coach", metrics:["16 Teams","R500K Bursaries","4 Tournaments"], data:["Team/Name","Event","Budget"], zone:"SURFACE"},
+  {icon:"🏦", name:"LEGACY FUND", sub:"For Our Grandkids", face:"🏦", story:"'R12M for after mine closes' - Committee", metrics:["R12M Saved","9 Projects","3400 Votes"], data:["Project","Cost","Ward"], zone:"SURFACE"},
+  {icon:"🗺️", name:"ANCESTOR GUARD", sub:"Protect Heritage", face:"🗺️", story:"'Graves are safe and mapped' - Elder", metrics:["22 Sites","18 Meetings","100% Agreement"], data:["Location","Issue","Notes"], zone:"SURFACE", proof:true},
+  {icon:"🌳", name:"GREEN BREATH", sub:"Land Healed", face:"🌳", story:"'River is clean again' - Community", metrics:["8400 Trees","Water: Clean","ESG: AA"], data:["Report","Location","Photo"], zone:"SURFACE", proof:true},
+  {icon:"💳", name:"COMMUNITY BANK", sub:"We Save Together", face:"💳", story:"'Stokvel paid for my shop' - Mama", metrics:["640 Members","R3.2M Saved","112 Loans"], data:["Name","Action","Amount"], zone:"SURFACE"},
+  {icon:"📦", name:"SPREAD THE LIGHT", sub:"Clone to Other Mines", face:"📦", story:"'Every mine deserves this' - You", metrics:["1 System","0 Mines Yet","R250K License"], data:["Mine Name","Contact","Email"], zone:"SURFACE"}
 ];
 
 const appGrid = document.getElementById('appGrid');
@@ -96,24 +240,77 @@ function openModule(i) {
   let kpiHTML = '<div class="kpi">';
   m.metrics.forEach(k => kpiHTML += `<div class="kpi-box"><h4>${k.split(' ')[0]}</h4><p>${k.split(' ').slice(1).join(' ')}</p></div>`);
   kpiHTML += '</div>';
-  let formHTML = m.data.map(f => `<input type="text" placeholder="${f}">`).join('');
-  if(m.critical) formHTML += `<button class="btn danger">🚨 SEND EMERGENCY ALERT</button>`;
+
+  let formHTML = m.data.map(f => `<input type="text" placeholder="${f}" class="entryInput">`).join('');
+  if(m.proof) formHTML += `<input type="file" accept="image/*" id="proofPhoto"><small>📍 Photo + GPS for audit proof</small>`;
+  if(m.voice) formHTML += `<button class="btn secondary" onclick="recordVoice()">🎤 Hold to Record Voice Note</button>`;
+  if(m.critical) formHTML += `<button class="btn danger" onclick="emergencyAlert('${m.name}')">🚨 SEND EMERGENCY ALERT</button>`;
 
   document.getElementById('modalTitle').innerText = `${m.icon} ${m.name}`;
   document.getElementById('modalBody').innerHTML = `
-    <p style="opacity:0.8;">${m.sub} | Zone: ${m.zone}</p>
-    <div class="story">“${m.story}”</div>
+    <p style="opacity:0.8; margin-bottom:10px;">${m.sub} | Zone: ${m.zone}</p>
+    <div class="story" style="margin-bottom:15px;">“${m.story}”</div>
     ${kpiHTML}
-    <h4 style="margin:15px 0 5px;">LOG ENTRY</h4>
+    <h4 style="margin:15px 0 5px;">ADD NEW ENTRY</h4>
     ${formHTML}
-    <button class="btn" onclick="saveData('${m.name}')">SAVE TO DEEP CORE</button>
+    <button class="btn" onclick="saveData('${m.name}', ${m.proof||false})">SAVE TO DEEP CORE</button>
+    <button class="btn secondary" onclick="exportPDF('${m.name}')">📄 EXPORT PDF REPORT</button>
   `;
   document.getElementById('modal').style.display = 'flex';
 }
+
 function closeModal() {document.getElementById('modal').style.display = 'none';}
-function saveData(module) {
-  alert(`✓ LOGGED TO DEEP CORE\n${module}\nTimestamp + GPS + User ID`);
+
+function saveData(module, hasProof) {
+  const inputs = document.querySelectorAll('.entryInput');
+  const entry = {module, time: new Date().toISOString(), values: []};
+  inputs.forEach(i => entry.values.push(i.value));
+  if(hasProof && document.getElementById('proofPhoto') && document.getElementById('proofPhoto').files[0]) {
+    entry.proof = "Photo attached";
+    entry.gps = "Lat: -23.9, Lon: 29.4"; // Simulated
+  }
+  twinzData.push(entry);
+  localStorage.setItem('twinzDeepCore', JSON.stringify(twinzData));
+
+  // Live Feed Update
+  const msg = `🎉 TWINZ UPDATE: New entry in ${module}. Total: ${twinzData.length}`;
+  document.getElementById('liveFeed').innerHTML = `🔴 LIVE: ${msg} | ${new Date().toLocaleTimeString()}`;
+
+  // Update CEO Bar
+  document.getElementById('jobs').innerText = 320 + twinzData.length;
+  document.getElementById('impactText').innerText = `R${(12.1 + twinzData.length*0.01).toFixed(1)}M | ${320+twinzData.length} Jobs | 0 Fatalities`;
+
+  alert(`✓ SAVED & POSTED\n${msg}\nProof: ${hasProof? 'Photo + GPS' : 'Text'}\nSynced to Cloud`);
   closeModal();
+}
+
+function jarvisSpeak() {
+  const q = document.getElementById('jarvisInput').value;
+  if(q) {
+    const responses = [
+      `LIFE AI: 42 workers currently on Level 22. Air quality 98%.`,
+      `LIFE AI: Community wins: ${twinzData.length} actions, R${(twinzData.length*1000).toLocaleString()} paid.`,
+      `LIFE AI: No underground incidents. 3 workers need PPE renewal.`
+    ];
+    alert(responses[Math.floor(Math.random()*responses.length)]);
+  }
+}
+
+function recordVoice() {
+  alert("🎤 Recording... [In real version this saves voice note and transcribes]");
+}
+
+function emergencyAlert(module) {
+  alert(`🚨 EMERGENCY ALERT SENT\n${module}\nAll supervisors + Rescue team notified\nHeadcount initiated`);
+}
+
+function exportPDF(module) {
+  alert(`📄 Generating PDF Report for ${module}...\nDMR Audit Ready with Timestamp + GPS`);
+}
+
+function toggleTheme() {
+  document.body.style.background = document.body.style.background === 'white'? 'var(--bg)' : 'white';
+  document.body.style.color = document.body.style.color === 'black'? 'var(--text)' : 'black';
 }
 </script>
 </body>
