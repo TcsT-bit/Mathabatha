@@ -3,118 +3,140 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TWINZ OS IRON - 2030 Mining Command</title>
+<title>TWINZ OS LIFE - 2030 Mining Command</title>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap');
 :root {
-  --bg: #020a14;
+  --bg: #01060f;
   --accent: #00d9ff;
-  --warn: #ffaa00;
-  --danger: #ff3b30;
-  --glass: rgba(0,217,255,0.06);
-  --text: #d0f0ff;
+  --warm: #ffb700;
+  --glass: rgba(0,217,255,0.05);
+  --text: #e6f9ff;
 }
-* {margin:0; padding:0; box-sizing:border-box; font-family: 'Rajdhani', sans-serif;}
+* {margin:0; padding:0; box-sizing:border-box; font-family: 'Plus Jakarta Sans', sans-serif;}
 body {
   background: var(--bg);
-  background-image: radial-gradient(circle at 50% 0%, rgba(0,217,255,0.08) 0%, transparent 60%);
+  background-image: radial-gradient(circle at 30% 20%, rgba(0,217,255,0.1) 0%, transparent 50%);
   color: var(--text);
   min-height: 100vh;
+  overflow-x: hidden;
 }
+.pulse-bg {
+  position: fixed; width:200%; height:200%; top:-50%; left:-50%;
+  background: radial-gradient(circle, rgba(0,217,255,0.03) 0%, transparent 70%);
+  animation: pulse 8s ease-in-out infinite;
+  z-index:-1;
+}
+@keyframes pulse {0%,100%{transform:scale(1)} 50%{transform:scale(1.1)}}
+
 .header {
   display:flex; justify-content:space-between; align-items:center;
-  padding: 20px 40px; border-bottom: 1px solid var(--accent);
-  background: linear-gradient(180deg, rgba(0,217,255,0.05), transparent);
+  padding: 25px 40px; border-bottom: 1px solid rgba(0,217,255,0.2);
 }
 .header h1 {
-  font-size: 2em; font-weight: 700; letter-spacing: 2px;
-  color: var(--accent); text-shadow: 0 0 10px var(--accent);
+  font-size: 2.2em; font-weight: 800;
+  background: linear-gradient(90deg, var(--accent), var(--warm));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
 }
-.status {
-  display:flex; gap:20px; font-size:0.9em;
+.live-feed {
+  background: var(--glass); backdrop-filter: blur(20px);
+  margin: 20px 40px; padding: 15px; border-radius: 14px;
+  border-left: 3px solid var(--warm);
+  font-size: 0.9em;
 }
-.status.dot {width:10px; height:10px; background:var(--accent); border-radius:50%; box-shadow:0 0 10px var(--accent); animation: blink 1.5s infinite;}
-@keyframes blink {50%{opacity:0.3}}
+.live-feed span {color: var(--warm); font-weight: 600;}
+
 .jarvis-bar {
-  margin: 20px 40px; padding: 15px; background: var(--glass);
-  border: 1px solid var(--accent); border-radius: 12px;
-  display:flex; gap:10px;
+  margin: 0 40px 30px; padding: 18px; background: var(--glass);
+  border: 1px solid var(--accent); border-radius: 16px;
+  display:flex; gap:12px; align-items:center;
 }
 .jarvis-bar input {
-  flex:1; background:transparent; border:none; color:var(--text); font-size:1em; outline:none;
+  flex:1; background:transparent; border:none; color:var(--text); font-size:1.05em; outline:none;
 }
+.jarvis-avatar {
+  width:40px; height:40px; border-radius:50%;
+  background: linear-gradient(135deg, var(--accent), var(--warm));
+  display:flex; align-items:center; justify-content:center; font-size:1.3em;
+}
+
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 20px;
-  padding: 30px 40px;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 24px;
+  padding: 0 40px 40px;
   max-width: 1600px; margin: 0 auto;
 }
 .card {
   background: var(--glass);
   backdrop-filter: blur(20px);
-  border: 1px solid rgba(0,217,255,0.3);
-  border-radius: 16px;
+  border: 1px solid rgba(0,217,255,0.2);
+  border-radius: 20px;
   padding: 25px;
   cursor: pointer;
-  transition: all 0.3s;
+  transition: all 0.4s;
   position: relative;
 }
 .card:hover {
   border-color: var(--accent);
-  background: rgba(0,217,255,0.1);
-  transform: translateY(-4px);
-  box-shadow: 0 0 25px rgba(0,217,255,0.2);
+  transform: translateY(-6px);
+  box-shadow: 0 15px 40px rgba(0,217,255,0.15);
 }
-.card.icon {font-size: 2.5em; margin-bottom: 12px;}
-.card h3 {font-size: 1.2em; font-weight: 700; margin-bottom: 5px;}
-.card.sub {font-size:0.85em; opacity:0.7; margin-bottom:10px;}
-.card.metric {display:flex; justify-content:space-between; font-size:0.9em; margin-top:8px;}
+.card-face {
+  width:50px; height:50px; border-radius:50%; background:var(--warm);
+  display:flex; align-items:center; justify-content:center; font-size:1.5em; margin-bottom:12px;
+}
+.card h3 {font-size: 1.25em; font-weight: 700; margin-bottom: 4px;}
+.card.sub {font-size:0.9em; opacity:0.7; margin-bottom:15px;}
+.card.metric {display:flex; justify-content:space-between; font-size:0.9em; margin-top:10px; padding-top:10px; border-top:1px solid rgba(255,255,255,0.05);}
+.story {
+  font-size:0.85em; font-style:italic; opacity:0.8; margin-top:10px; color:var(--warm);
+}
+
 .modal {
   display: none; position: fixed; top:0; left:0; width:100%; height:100%;
-  background: rgba(0,0,0,0.9); backdrop-filter: blur(15px);
+  background: rgba(0,0,0,0.9); backdrop-filter: blur(20px);
   justify-content: center; align-items: center; z-index: 1000;
 }
 .modal-content {
-  background: #010a14;
+  background: #01060f;
   border: 1px solid var(--accent);
-  border-radius: 18px; padding: 35px; width: 95%; max-width: 750px;
-  box-shadow: 0 0 40px rgba(0,217,255,0.2);
+  border-radius: 22px; padding: 35px; width: 95%; max-width: 700px;
 }
 .kpi {
   display:grid; grid-template-columns: repeat(3,1fr); gap:15px; margin:20px 0;
 }
 .kpi-box {
-  background: rgba(0,217,255,0.05); padding:15px; border-radius:10px; text-align:center;
-  border-left: 3px solid var(--accent);
+  background: rgba(0,217,255,0.05); padding:18px; border-radius:12px; text-align:center;
+  border-bottom: 2px solid var(--accent);
 }
-.kpi-box h4 {font-size:1.6em; color:var(--accent);}
+.kpi-box h4 {font-size:1.8em; color:var(--accent);}
 .btn {
-  background: linear-gradient(90deg, var(--accent), #0088ff);
-  border: none; color: #000; padding: 14px 24px; border-radius: 10px;
-  font-weight: 700; cursor: pointer; width: 100%; margin-top: 15px;
-  font-size: 1em; letter-spacing:1px;
+  background: linear-gradient(90deg, var(--accent), var(--warm));
+  border: none; color: #000; padding: 14px 24px; border-radius: 12px;
+  font-weight: 800; cursor: pointer; width: 100%; margin-top: 15px;
+  font-size: 1em;
 }
-.btn:hover {box-shadow: 0 0 20px var(--accent);}
-.btn.warn {background: var(--warn);}
-.btn.danger {background: var(--danger); color:#fff;}
 </style>
 </head>
 <body>
+<div class="pulse-bg"></div>
 
 <div class="header">
-  <h1>TWINZ OS // IRON</h1>
-  <div class="status">
-    <span><div class="dot"></div> ONLINE</span>
-    <span>MINE: TWINZ IRON</span>
-    <span>2030.04.12</span>
-  </div>
+  <h1>TWINZ OS // LIFE</h1>
+  <div>2030.04.12 | TWINZ IRON MINE</div>
+</div>
+
+<div class="live-feed">
+  🔴 LIVE: <span>Thabo Mokoena</span> was hired as Welders Assistant 2 min ago |
+  <span>Clinic</span> saw 14 patients today |
+  <span>Trust Fund</span> reached R12.1M
 </div>
 
 <div class="jarvis-bar">
-  <span>🤖</span>
-  <input id="jarvisInput" placeholder="JARVIS: 'Show pending SLP items' or 'Who needs induction'">
-  <button class="btn" style="width:auto;" onclick="jarvisCommand()">RUN</button>
+  <div class="jarvis-avatar">🤖</div>
+  <input id="jarvisInput" placeholder="Ask LIFE: 'Who needs training?' or 'Show me community wins this week'">
+  <button class="btn" style="width:auto; padding:12px 20px;" onclick="jarvisSpeak()">ASK</button>
 </div>
 
 <div class="grid" id="appGrid"></div>
@@ -128,35 +150,35 @@ body {
 </div>
 
 <script>
-// 2030 IRON MAN STYLE MODULES - PRACTICAL + SMART
 const modules = [
-  {icon:"👷", name:"LABOR COMMAND", sub:"AI Recruitment + Compliance", metrics:["512 Profiles","47 Hired","98% BEE"], data:["Name","ID","Skill","Phone","Status: Available/Hired"]},
-  {icon:"🚛", name:"FLEET OPS", sub:"Live Tracking + Dispatch", metrics:["32 Active","18 Loads","R2.4K Avg"], data:["Company","Truck Reg","Rate/KM","Driver","GPS Link"]},
-  {icon:"🏪", name:"SUPPLIER HUB", sub:"BEE Vendors + Tenders", metrics:["24 Vendors","R1.2M Spend","86 POs"], data:["Business","Service","BEE Level","Contact","Invoice Upload"]},
-  {icon:"📊", name:"SLP DASHBOARD", sub:"Auto DMR Reporting", metrics:["R8.4M YTD","320 Jobs","Audit: PASS"], data:["Report Type","Quarter","Attachment","Notes"]},
-  {icon:"🦺", name:"SAFETY CONTROL", sub:"Induction + PPE Tracking", metrics:["1040 Inducted","98% Valid","0 LTI"], data:["Employee","Induction Date","PPE Expiry","Medical"]},
-  {icon:"💰", name:"TREASURY", sub:"Payments + Transparency", metrics:["R4.8M Paid","67 Suppliers","0 Disputes"], data:["Payee","Amount","Service","Proof Upload"]},
-  {icon:"📢", name:"GRIEVANCE CENTER", sub:"48hr Resolution SLA", metrics:["3 Open","142 Closed","96% Sat"], data:["Ward","Issue","Priority","Voice Note"]},
-  {icon:"🎓", name:"SKILLS ACADEMY", sub:"SETA + Placement", metrics:["240 Students","89 Placed","12 Courses"], data:["Course","Student Name","ID","Phone"]},
-  {icon:"🌱", name:"BUSINESS INCUBATOR", sub:"Grants + Market Access", metrics:["38 Businesses","R2.1M Grants","54 Contracts"], data:["Business","Funding Needed","Sector","Proposal"]},
-  {icon:"🏥", name:"HEALTH PORTAL", sub:"Clinic + Campaigns", metrics:["1200 Patients","8 Campaigns","A Rating"], data:["Service","Name","Phone","Date"]},
-  {icon:"⚽", name:"YOUTH & CULTURE", sub:"Sponsorships + Bursaries", metrics:["16 Teams","R500K Bursaries","4 Events"], data:["Event","Team/Name","Budget","Contact"]},
-  {icon:"🏦", name:"TRUST FUND", sub:"Closure Planning", metrics:["R12M Balance","9 Projects","3400 Votes"], data:["Project","Cost","Ward","Vote"]},
-  {icon:"🗺️", name:"HERITAGE MAP", sub:"Land + Consultation Log", metrics:["22 Sites","18 Meetings","100% Agreed"], data:["Location","Issue","GPS","Notes"]},
-  {icon:"🌳", name:"ESG MONITOR", sub:"Environment Tracking", metrics:["8400 Trees","Water: OK","ESG: AA"], data:["Metric","Value","Photo","Location"]},
-  {icon:"💳", name:"COMMUNITY WALLET", sub:"Stokvel + Payments", metrics:["640 Members","R3.2M Saved","112 Loans"], data:["Action","Amount","Member ID","Ref"]},
-  {icon:"🤖", name:"PREDICTIVE AI", sub:"Risk + Insights", metrics:["5 Alerts","94% Accurate","R1.8M Saved"], data:["Ask AI","Department","Urgency"]},
-  {icon:"📦", name:"DEPLOYMENT KIT", sub:"Clone to Other Mines", metrics:["1 Template","0 Deployed","R250K Value"], data:["Mine Name","Province","Contact","Email"]}
+  {icon:"👷", name:"PEOPLE COMMAND", sub:"Real people. Real jobs.", face:"👷", story:"'This job changed my life' - Lerato, 28", metrics:["512 People","47 Hired This Month","98% From Community"], data:["Full Name","ID","Skill","WhatsApp"]},
+  {icon:"🚛", name:"FLEET FAMILY", sub:"Drivers + Trucks + Income", face:"🚛", story:"'Paid my son’s fees with this truck' - Jabu", metrics:["32 Trucks","18 Loads Today","R76,800 Paid"], data:["Company","Truck Reg","Driver Name","Rate"]},
+  {icon:"🏪", name:"LOCAL HEROES", sub:"BEE Businesses Growing", face:"🏪", story:"'Got my first R200K contract' - Sis Nomsa", metrics:["24 Vendors","R1.2M Spent Local","86 Orders"], data:["Business","What You Supply","Contact"]},
+  {icon:"📊", name:"PROMISE TRACKER", sub:"SLP Made Visible", face:"📊", story:"'We can finally see where money goes' - Chief", metrics:["R8.4M Invested","320 Jobs Created","100% Compliant"], data:["Project","Budget","Status"]},
+  {icon:"🦺", name:"SAFETY = FAMILY", sub:"Everyone Goes Home", face:"🦺", story:"'0 injuries for 6 months' - Safety Officer", metrics:["1040 Trained","98% PPE Compliant","0 Lost Time"], data:["Name","Induction Date","Next Renewal"]},
+  {icon:"💰", name:"TRANSPARENCY VAULT", sub:"See Every Rand", face:"💰", story:"'Payments in 24hrs, no bribes' - Supplier", metrics:["R4.8M Paid","67 Paid","0 Complaints"], data:["Payee","Amount","What For"]},
+  {icon:"📢", name:"VOICE OF COMMUNITY", sub:"Heard in 48 Hours", face:"📢", story:"'They fixed our water in 2 days' - Ward 3", metrics:["3 Open","142 Solved","96% Happy"], data:["Ward","Issue","Phone"]},
+  {icon:"🎓", name:"FUTURE BUILDERS", sub:"Skills = Freedom", face:"🎓", story:"'Now I’m a qualified electrician' - Kabelo", metrics:["240 Training","89 Placed","12 Courses"], data:["Name","Course","Phone"]},
+  {icon:"🌱", name:"DREAM INCUBATOR", sub:"Fund Local Ideas", face:"🌱", story:"'Got R50K grant for chicken farm' - Gogo", metrics:["38 Businesses","R2.1M Granted","54 Contracts"], data:["Idea","Amount Needed","Contact"]},
+  {icon:"🏥", name:"HEALTH FOR ALL", sub:"Clinic + Wellness", face:"🏥", story:"'Free checkups saved my life' - Auntie", metrics:["1200 Patients","8 Campaigns","A+ Rating"], data:["Name","Service","Date"]},
+  {icon:"⚽", name:"YOUTH RISING", sub:"Sports + Bursaries", face:"⚽", story:"'Twinz Cup gave us hope' - Coach", metrics:["16 Teams","R500K Bursaries","4 Tournaments"], data:["Team/Name","Event","Budget"]},
+  {icon:"🏦", name:"LEGACY FUND", sub:"For Our Grandkids", face:"🏦", story:"'R12M for after mine closes' - Committee", metrics:["R12M Saved","9 Projects","3400 Votes"], data:["Project","Cost","Ward"]},
+  {icon:"🗺️", name:"ANCESTOR GUARD", sub:"Protect Heritage", face:"🗺️", story:"'Graves are safe and mapped' - Elder", metrics:["22 Sites","18 Meetings","100% Agreement"], data:["Location","Issue","Notes"]},
+  {icon:"🌳", name:"GREEN BREATH", sub:"Land Healed", face:"🌳", story:"'River is clean again' - Community", metrics:["8400 Trees","Water: Clean","ESG: AA"], data:["Report","Location","Photo"]},
+  {icon:"💳", name:"COMMUNITY BANK", sub:"We Save Together", face:"💳", story:"'Stokvel paid for my shop' - Mama", metrics:["640 Members","R3.2M Saved","112 Loans"], data:["Name","Action","Amount"]},
+  {icon:"🤖", name:"LIFE AI", sub:"Predicts + Cares", face:"🤖", story:"'AI warned us about truck delays' - Ops", metrics:["5 Warnings","94% Accurate","R1.8M Saved"], data:["Ask LIFE","Department"]},
+  {icon:"📦", name:"SPREAD THE LIGHT", sub:"Clone to Other Mines", face:"📦", story:"'Every mine deserves this' - You", metrics:["1 System","0 Mines Yet","R250K License"], data:["Mine Name","Contact","Email"]}
 ];
 
 const appGrid = document.getElementById('appGrid');
 modules.forEach((m, i) => {
   appGrid.innerHTML += `
     <div class="card" onclick="openModule(${i})">
-      <div class="icon">${m.icon}</div>
+      <div class="card-face">${m.face}</div>
       <h3>${m.name}</h3>
       <div class="sub">${m.sub}</div>
-      ${m.metrics.map(met => `<div class="metric"><span>${met.split(' ')[1]||met}</span><b>${met.split(' ')[0]}</b></div>`).join('')}
+      ${m.metrics.map(met => `<div class="metric"><span>${met.split(' ').slice(1).join(' ')}</span><b>${met.split(' ')[0]}</b></div>`).join('')}
+      <div class="story">“${m.story}”</div>
     </div>
   `;
 });
@@ -166,18 +188,16 @@ function openModule(i) {
   let kpiHTML = '<div class="kpi">';
   m.metrics.forEach(k => kpiHTML += `<div class="kpi-box"><h4>${k.split(' ')[0]}</h4><p>${k.split(' ').slice(1).join(' ')}</p></div>`);
   kpiHTML += '</div>';
-
-  let formHTML = '';
-  m.data.forEach(f => formHTML += `<input type="text" placeholder="${f}">`);
+  let formHTML = m.data.map(f => `<input type="text" placeholder="${f}">`).join('');
 
   document.getElementById('modalTitle').innerText = `${m.icon} ${m.name}`;
   document.getElementById('modalBody').innerHTML = `
-    <p style="opacity:0.8;">${m.sub}</p>
+    <p style="opacity:0.8; margin-bottom:10px;">${m.sub}</p>
+    <div class="story" style="margin-bottom:15px;">“${m.story}”</div>
     ${kpiHTML}
-    <h4 style="margin:15px 0 5px;">NEW ENTRY</h4>
+    <h4 style="margin:15px 0 5px;">ADD NEW ENTRY</h4>
     ${formHTML}
-    <button class="btn" onclick="saveData('${m.name}')">SUBMIT TO DATABASE</button>
-    <button class="btn warn" onclick="alert('Exporting to Excel...')">EXPORT REPORT</button>
+    <button class="btn" onclick="saveData('${m.name}')">SAVE TO COMMUNITY DATABASE</button>
   `;
   document.getElementById('modal').style.display = 'flex';
 }
@@ -185,16 +205,23 @@ function openModule(i) {
 function closeModal() {document.getElementById('modal').style.display = 'none';}
 
 function saveData(module) {
-  let data = JSON.parse(localStorage.getItem('twinzIron')) || [];
+  let data = JSON.parse(localStorage.getItem('twinzLife')) || [];
   data.push({module, time: new Date().toISOString()});
-  localStorage.setItem('twinzIron', JSON.stringify(data));
-  alert(`✓ ENTRY SAVED\nModule: ${module}\nTotal: ${data.length}\nSynced to Cloud`);
+  localStorage.setItem('twinzLife', JSON.stringify(data));
+  alert(`✓ SAVED\n${module}\nThank you for building community.`);
   closeModal();
 }
 
-function jarvisCommand() {
+function jarvisSpeak() {
   const q = document.getElementById('jarvisInput').value;
-  if(q) alert(`JARVIS: Processing "${q}"\n\nResult: 3 items found. Opening relevant module...`);
+  if(q) {
+    const responses = [
+      `LIFE AI: I found 3 people who need induction training. Opening Safety Control.`,
+      `LIFE AI: Community wins this week: 12 jobs, 1 clinic day, R80K paid to vendors.`,
+      `LIFE AI: Trust Fund is healthy. Next vote is in 14 days.`
+    ];
+    alert(responses[Math.floor(Math.random()*responses.length)]);
+  }
 }
 </script>
 </body>
